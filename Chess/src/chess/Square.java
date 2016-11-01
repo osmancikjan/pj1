@@ -14,7 +14,9 @@ import java.awt.Point;
 public class Square extends ModelObject {
 
     public enum Type {
-        WHITE,BLACK;
+        White_Pawn,Black_Pawn,White_King,Black_King,White_Queen,Black_Queen,
+        White_Horse,Black_Horse,Black_Bishop,White_Bishop, White_Rook,Black_Rook,
+        White_Back,Black_Back;
     }
     private final Type type;
 
