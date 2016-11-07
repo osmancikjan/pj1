@@ -5,17 +5,17 @@
  */
 package chess;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -26,6 +26,7 @@ public class Chess extends Application {
     private Model model;
     private View view;
     private Controller controller;
+   
 
     public Chess() {
         model = new Model();
@@ -42,7 +43,6 @@ public class Chess extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (controller.isRunning()) {
-                    //action.stop(); 
                     controller.stop();
                     btnStart.setText("Start game");
                 } else {
@@ -68,6 +68,28 @@ public class Chess extends Application {
 
         view = new View(canvas.getGraphicsContext2D(), model);
         controller = new Controller(view, model);
+        canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                     int xosa = (int)event.getSceneX();
+                     int yosa = (int)event.getSceneY();
+                     xosa = xosa/100;
+                     yosa = yosa/100;
+                     Point direction = new Point();
+                     Point pozice = new Point(xosa,yosa);
+                     
+                   /*  
+                     choosen 
+                      then 
+                    move */                    
+                     direction.x = 0;
+                     direction.y = 1;        
+                     model.Move(pozice,direction);
+                     model.Choosen(pozice);
+                     view.update();               
+            }
+        });
+        
         
         basePane.getChildren().add(root);
         AnchorPane.setBottomAnchor(root, 0.0);

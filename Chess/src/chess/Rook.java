@@ -11,26 +11,25 @@ import java.awt.Point;
  *
  * @author Dro0076
  */
-public class Square extends ModelObject {
+public class Rook extends ModelObject{
+    private final Model model;
 
-    public enum Type {
-        Black_back,White_back;
+     public enum Color {
+        Black,White;
     }
- 
-    private final Type type;
+     private final Color color;
 
-    public Square(Point position, Type type) {
+    public Rook(Point position, Model model, Color color) {
         super(position);
-        this.type = type;
+        this.model = model;
+        this.color = color;
     }
-
-    public Type getType() {
-        return type;
+    
+    public Rook.Color getColor() {
+        return color;
     }
-
     @Override
     public void process() {
-
+       
     }
-
 }

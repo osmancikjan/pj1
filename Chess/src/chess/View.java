@@ -5,6 +5,7 @@
  */
 package chess;
 
+import java.awt.Point;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -19,26 +20,31 @@ public class View {
     public final static int width = 700;
 
     private GraphicsContext context;
-    private final Image white_pawn,black_pawn,white_king,black_king,
-            black_queen,white_queen,black_horse,white_horse,black_bishop,
-            white_bishop, white_rook,black_rook;
+    private final Image black_back,white_back, white_pawn,black_pawn, 
+                        white_knight, black_knight, white_rook,black_rook,
+                        white_bishop, black_bishop, white_queen, black_queen,
+                        white_king, black_king;
 
+   
     private Model model;
     
     View(GraphicsContext context, Model model) {
         this.context = context;
+        
+        black_back = new Image("file:src/images/GreyBack.jpg");
+        white_back = new Image("file:src/images/WhiteBack.jpg"); 
+        white_pawn = new Image("file:src/images/White_Pawn.png"); 
         black_pawn = new Image("file:src/images/Black_Pawn.png");
-        white_pawn = new Image("file:src/images/White_Pawn.png");
-        white_king = new Image("file:src/images/White_King.png");
-        black_king = new Image("file:src/images/Black_King.png");
-        white_queen = new Image("file:src/images/White_Queen.png");
-        black_queen = new Image("file:src/images/Black_Queen.png");
-        white_horse = new Image("file:src/images/White_Horse.png");
-        black_horse = new Image("file:src/images/Black_Horse.png");
-        white_bishop = new Image("file:src/images/White_Bishop.png");
-        black_bishop = new Image("file:src/images/Black_Bishop.png");
+        white_knight = new Image("file:src/images/White_Horse.png");
+        black_knight = new Image("file:src/images/Black_Horse.png");
         white_rook = new Image("file:src/images/White_Rook.png");
         black_rook = new Image("file:src/images/Black_Rook.png");
+        white_bishop = new Image("file:src/images/White_Bishop.png");
+        black_bishop = new Image("file:src/images/Black_Bishop.png");
+        white_queen = new Image("file:src/images/White_Queen.png");
+        black_queen = new Image("file:src/images/Black_Queen.png");
+        white_king =new Image("file:src/images/White_King.png");
+        black_king =new Image("file:src/images/Black_King.png");
         this.model = model;
         update();
     }
@@ -59,61 +65,76 @@ public class View {
         context.fillRect(0, 0,
                 context.getCanvas().getWidth(),
                 context.getCanvas().getHeight());
+        
         synchronized (model) {
             for (ModelObject object : model.getObjects()) {
                 Image image = null;
                 if (object instanceof Square) {
-                    if (((Square) object).getType() == Square.Type.White_Pawn) {
-                        image = white_pawn;
+                    if (((Square) object).getType() == Square.Type.White_back) {
+                        image = white_back;
                     } 
-                    else if(((Square) object).getType() == Square.Type.Black_Pawn)
-                    {
-                        image = black_pawn;
+                    else{
+                        image = black_back;
                     }
-                    else if(((Square) object).getType() == Square.Type.Black_King)
-                    {
-                        image = black_king;
+                }
+                if (object instanceof Pawn)
+                {
+                    if (((Pawn) object).getColor() == Pawn.Color.White){
+                    image = white_pawn;
                     }
-                    else if(((Square) object).getType() == Square.Type.White_King)
-                    {
-                        image = white_king;
+                    else {
+                    image = black_pawn;
                     }
-                    else if(((Square) object).getType() == Square.Type.Black_Queen)
-                    {
-                        image = black_queen;
+                }
+                if (object instanceof Knight)
+                {
+                    if (((Knight) object).getColor() == Knight.Color.White){
+                    image = white_knight;
                     }
-                    else if(((Square) object).getType() == Square.Type.White_Queen)
-                    {
-                        image = white_queen;
+                    else {
+                    image = black_knight;
                     }
-                    else if(((Square) object).getType() == Square.Type.Black_Horse)
-                    {
-                        image = black_horse;
+                }
+                if (object instanceof Rook)
+                {
+                    if (((Rook) object).getColor() == Rook.Color.White){
+                    image = white_rook;
                     }
-                    else if(((Square) object).getType() == Square.Type.White_Horse)
-                    {
-                        image = white_horse;
+                    else {
+                    image = black_rook;
                     }
-                    else if(((Square) object).getType() == Square.Type.Black_Bishop)
-                    {
-                        image = black_bishop;
+                }
+                if (object instanceof Bishop)
+                {
+                    if (((Bishop) object).getColor() == Bishop.Color.White){
+                    image = white_bishop;
                     }
-                    else if(((Square) object).getType() == Square.Type.White_Bishop)
-                    {
-                        image = white_bishop;
+                    else {
+                    image = black_bishop;
                     }
-                    else if(((Square) object).getType() == Square.Type.Black_Rook)
-                    {
-                        image = black_rook;
+                }
+                if (object instanceof Queen)
+                {
+                    if (((Queen) object).getColor() == Queen.Color.White){
+                    image = white_queen;
                     }
-                    else if(((Square) object).getType() == Square.Type.White_Rook)
-                    {
-                        image = white_rook;
+                    else {
+                    image = black_queen;
                     }
+                }
+                if (object instanceof King)
+                {
+                    if (((King) object).getColor() == King.Color.White){
+                    image = white_king;
+                    }
+                    else {
+                    image = black_king;
+                    }
+                }
                 drawSquare(object.getX(), object.getY(), image);
             }
         }
     }
 }
-}
+
 
