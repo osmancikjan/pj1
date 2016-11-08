@@ -22,32 +22,22 @@ public class Pawn extends ModelObject{
     }
      private final Color color;
      
+     
       public Pawn(Point position, Model model, Color color) {
         super(position);
         this.model = model;
         this.color = color;
     }
-    
-   
       
     public void Choosen(Point position){
        Point point = position;
         /*for (ModelObject object : model.getObjects()) {
-         if(((Pawn) object).getPosition() == position){
-            
-            
+         if(((Pawn) object).getPosition() == position){ 
          }
         
         }*/
          System.out.println(point);
     }  
-
-    public void Move(Point position,Point direction){
-      Point point = new Point(getX() + direction.x, getY() + direction.y);
-      ModelObject object = model.getObjectAt(point);
-      move(direction.x, direction.y); 
-}
-   
     
     public Pawn.Color getColor() {
         return color;

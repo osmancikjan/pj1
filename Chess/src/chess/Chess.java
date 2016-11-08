@@ -26,6 +26,7 @@ public class Chess extends Application {
     private Model model;
     private View view;
     private Controller controller;
+    private ArrayList<ModelObject> objects = new ArrayList<>();
    
 
     public Chess() {
@@ -75,16 +76,28 @@ public class Chess extends Application {
                      int yosa = (int)event.getSceneY();
                      xosa = xosa/100;
                      yosa = yosa/100;
+                     
                      Point direction = new Point();
                      Point pozice = new Point(xosa,yosa);
                      
-                   /*  
-                     choosen 
-                      then 
-                    move */                    
-                     direction.x = 0;
-                     direction.y = 1;        
-                     model.Move(pozice,direction);
+                     for (ModelObject object : model.getObjects()) {
+                     if( object.position.equals(pozice))
+                     {               
+                         if (object instanceof Pawn)
+                         {
+                            if (((Pawn) object).getColor() == Pawn.Color.White){
+                                direction.x = 0;
+                                direction.y = -1;  
+                                }else{
+                                direction.x = 0;
+                                direction.y = 1; 
+                                }       
+                         model.Choosen(pozice);   
+                         model.getObjectAt1(pozice,direction);
+                         System.out.println("Kliknul jsi na pincla");
+                         }
+                     }
+                     }             
                      model.Choosen(pozice);
                      view.update();               
             }

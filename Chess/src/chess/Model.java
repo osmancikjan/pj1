@@ -21,6 +21,7 @@ public class Model {
     public int Width;
     
     private ArrayList<ModelObject> objects = new ArrayList<>();
+    private ArrayList<ModelObject> back = new ArrayList<>();
     private Pawn pawn;
     private Knight knight;
     private Rook rook;
@@ -32,15 +33,20 @@ public class Model {
     public ArrayList<ModelObject> getObjects() {
         return this.objects;
     }
+    public ArrayList<ModelObject> getBackground() {
+        return this.back;
+    }
     
     public Model() {
 
     }
-    
-    public synchronized ModelObject getObjectAt(Point position) {
+     
+    public synchronized ModelObject getObjectAt1(Point position, Point direction){
         for(ModelObject object:objects) {
-            if (object.getPosition().equals(position)) {
-                return object;
+            if (object.getPosition().equals(position))
+            {
+               Point moveTo = new Point(position.x + direction.x, position.y + direction.y);
+               object.getPosition().setLocation(moveTo);
             }
         }
         return null;
@@ -55,15 +61,19 @@ public class Model {
         }
     }
     public synchronized void Choosen(Point position) {
-        pawn.Choosen(position);
+       for(ModelObject object:objects) {
+            if (object.getPosition().equals(position))
+            {
+               pawn.Choosen(position);
+            }
+        }
     }    
       
-    public synchronized void Move(Point position ,Point direction) {
-        pawn.Move(position,direction);
-    }  
+  
       
     public synchronized void initGame() {
         objects.clear();
+        back.clear();
         String[] init = {
             "BWBWBWBW",
             "WBWBWBWB",
@@ -81,11 +91,11 @@ public class Model {
             Width = s.length();
             for (int j = 0; j < s.length(); j++) {
                 if (s.charAt(j) == 'W') {
-                    objects.add(new Square(new Point(j, i), Square.Type.White_back));
+                    back.add(new Square(new Point(j, i), Square.Type.White_back));
                 } 
                 else if (s.charAt(j) == 'B')
                 {
-                    objects.add(new Square(new Point(j, i), Square.Type.Black_back));
+                    back.add(new Square(new Point(j, i), Square.Type.Black_back));
                 }
             }
             i++;

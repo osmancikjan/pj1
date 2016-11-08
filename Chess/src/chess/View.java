@@ -67,7 +67,7 @@ public class View {
                 context.getCanvas().getHeight());
         
         synchronized (model) {
-            for (ModelObject object : model.getObjects()) {
+            for (ModelObject object : model.getBackground()) {
                 Image image = null;
                 if (object instanceof Square) {
                     if (((Square) object).getType() == Square.Type.White_back) {
@@ -76,7 +76,11 @@ public class View {
                     else{
                         image = black_back;
                     }
+                    drawSquare(object.getX(), object.getY(), image);
                 }
+               }
+                for (ModelObject object : model.getObjects()) {
+                Image image = null;
                 if (object instanceof Pawn)
                 {
                     if (((Pawn) object).getColor() == Pawn.Color.White){
@@ -84,7 +88,7 @@ public class View {
                     }
                     else {
                     image = black_pawn;
-                    }
+                    }       
                 }
                 if (object instanceof Knight)
                 {

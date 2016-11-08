@@ -13,7 +13,7 @@ import java.awt.Point;
  */
 public abstract class ModelObject {
     
-    private Point position;
+    Point position;
 
     public ModelObject(Point position) {
         this.position = new Point(position.x,position.y);
