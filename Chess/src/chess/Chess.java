@@ -88,7 +88,7 @@ public class Chess extends Application {
                       for (ModelObject object : model.getObjects()) {
                           if( object.position.equals(pozice))
                           {               
-                            if (object instanceof Pawn)
+                        if (object instanceof Pawn)
                              {
                               if (((Pawn) object).getColor() == Pawn.Color.White){
                                     if(direction.x == pozice.x && direction.y == pozice.y-1){
@@ -96,6 +96,76 @@ public class Chess extends Application {
                                       }    
                               }else{
                                   if(direction.x== pozice.x && direction.y == pozice.y+1){
+                                        rightToMove=true;
+                                      }        
+                                   }                   
+                             }
+                        if (object instanceof Rook)
+                             {
+                              if (((Rook) object).getColor() == Rook.Color.White){
+                                    if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+                                       || (direction.x == pozice.x && direction.y <= pozice.y+1)
+                                       || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+                                       || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                                        rightToMove=true;
+                                      }    
+                              }else{
+                                   if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+                                      || (direction.x == pozice.x && direction.y <= pozice.y+1)
+                                      || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+                                      || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                                        rightToMove=true;
+                                      }        
+                                   }                   
+                             }
+                        if (object instanceof Bishop)
+                             {
+                              if (((Bishop) object).getColor() == Bishop.Color.White){
+                                    if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                       || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+                                       || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
+                                        rightToMove=true;
+                                      }    
+                              }else{
+                                   if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                       || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+                                       || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
+                                        rightToMove=true;
+                                      }        
+                                   }                   
+                             }
+                        if (object instanceof Knight)
+                             {
+                              if (((Knight) object).getColor() == Knight.Color.White){
+                                    if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
+                                       || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
+                                       || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
+                                        rightToMove=true;
+                                      }    
+                              }else{
+                                     if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
+                                       || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
+                                       || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
+                                        rightToMove=true;
+                                      }        
+                                   }                   
+                             }  
+                        if (object instanceof King)
+                             {
+                              if (((King) object).getColor() == King.Color.White){
+                                    if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
+                                       ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
+                                       ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
+                                       ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
+                                        rightToMove=true;
+                                      }    
+                              }else{
+                                    if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
+                                       ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
+                                       ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
+                                       ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
                                         rightToMove=true;
                                       }        
                                    }                   
@@ -123,7 +193,23 @@ public class Chess extends Application {
                                     {               
                                      if (object instanceof Pawn)
                                      {
-                                       System.out.println("Vybral jsi pincla na pozici"+pozice);            
+                                       System.out.println("Vybral jsi pincla na pozici "+pozice);            
+                                     }
+                                     if (object instanceof Rook)
+                                     {
+                                       System.out.println("Vybral jsi vez na pozici "+pozice);            
+                                     }
+                                     if (object instanceof Bishop)
+                                     {
+                                       System.out.println("Vybral jsi strelce na pozici "+pozice);            
+                                     }
+                                     if (object instanceof Knight)
+                                     {
+                                       System.out.println("Vybral jsi kone na pozici "+pozice);            
+                                     }
+                                     if (object instanceof King)
+                                     {
+                                       System.out.println("Vybral jsi krale na pozici "+pozice);            
                                      }
                                     }
                                  }                    
