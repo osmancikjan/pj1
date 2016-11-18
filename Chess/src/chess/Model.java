@@ -40,12 +40,31 @@ public class Model {
     public Model() {
 
     }
+    
+    public boolean isFree(Point point) {
+        for (ModelObject object:objects) {
+            if (object.getPosition().equals(point)) {
+                return false;
+            }
+        }
+        return true;
+    }
+     public synchronized Point getOccupied(Point position, Point direction){
+         for(ModelObject object:objects) {
+            if (object.getPosition().equals(position))
+            {
+               Point moveTo = new Point(direction.x,direction.y);
+               return moveTo;
+            }
+     }
+        return null; 
+     }
      
     public synchronized ModelObject getObjectAt1(Point position, Point direction){
         for(ModelObject object:objects) {
             if (object.getPosition().equals(position))
             {
-               Point moveTo = new Point(position.x + direction.x, position.y + direction.y);
+               Point moveTo = new Point(direction.x,direction.y);
                object.getPosition().setLocation(moveTo);
             }
         }
@@ -60,14 +79,14 @@ public class Model {
             }
         }
     }
-    public synchronized void Choosen(Point position) {
+   /* public synchronized void Choosen(Point position) {
        for(ModelObject object:objects) {
             if (object.getPosition().equals(position))
             {
                pawn.Choosen(position);
             }
         }
-    }    
+    }   */ 
       
   
       

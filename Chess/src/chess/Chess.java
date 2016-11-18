@@ -27,6 +27,10 @@ public class Chess extends Application {
     private View view;
     private Controller controller;
     private ArrayList<ModelObject> objects = new ArrayList<>();
+    int NumOfClick =1;
+    Point direction = new Point();
+    Point pozice = new Point();
+    
    
 
     public Chess() {
@@ -72,34 +76,60 @@ public class Chess extends Application {
         canvas.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                     if(NumOfClick%2==0)
+                     {
+                     boolean rightToMove = false;    
                      int xosa = (int)event.getSceneX();
                      int yosa = (int)event.getSceneY();
                      xosa = xosa/100;
-                     yosa = yosa/100;
+                     yosa = yosa/100;    
                      
-                     Point direction = new Point();
-                     Point pozice = new Point(xosa,yosa);
+                     direction = new Point(xosa,yosa);
+                      for (ModelObject object : model.getObjects()) {
+                          if( object.position.equals(pozice))
+                          {               
+                            if (object instanceof Pawn)
+                             {
+                              if (((Pawn) object).getColor() == Pawn.Color.White){
+                                    if(direction.x == pozice.x && direction.y == pozice.y-1){
+                                        rightToMove=true;
+                                      }    
+                              }else{
+                                  if(direction.x== pozice.x && direction.y == pozice.y+1){
+                                        rightToMove=true;
+                                      }        
+                                   }                   
+                             }
+                          }
+                       }                 
                      
-                     for (ModelObject object : model.getObjects()) {
-                     if( object.position.equals(pozice))
-                     {               
-                         if (object instanceof Pawn)
-                         {
-                            if (((Pawn) object).getColor() == Pawn.Color.White){
-                                direction.x = 0;
-                                direction.y = -1;  
-                                }else{
-                                direction.x = 0;
-                                direction.y = 1; 
-                                }       
-                         model.Choosen(pozice);   
-                         model.getObjectAt1(pozice,direction);
-                         System.out.println("Kliknul jsi na pincla");
-                         }
+                     Point vpred =  new Point(model.getOccupied(pozice, direction));  
+                     if(model.isFree(vpred) && rightToMove==true){  
+                     model.getObjectAt1(pozice,direction);      
+                     }      
+                     else{
+                     System.out.println("Nelze se pohnout");
+                     }    
+                      NumOfClick++;
+                     }else{
+                         int xosa = (int)event.getSceneX();
+                         int yosa = (int)event.getSceneY();
+                         xosa = xosa/100;
+                         yosa = yosa/100;
+                         
+                         pozice = new Point(xosa,yosa);
+                            for (ModelObject object : model.getObjects()) {
+                                if( object.position.equals(pozice))
+                                    {               
+                                     if (object instanceof Pawn)
+                                     {
+                                       System.out.println("Vybral jsi pincla na pozici"+pozice);            
+                                     }
+                                    }
+                                 }                    
+                       NumOfClick++;
                      }
-                     }             
-                     model.Choosen(pozice);
-                     view.update();               
+                    view.update();               
             }
         });
         

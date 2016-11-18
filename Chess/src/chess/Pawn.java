@@ -29,15 +29,16 @@ public class Pawn extends ModelObject{
         this.color = color;
     }
       
-    public void Choosen(Point position){
+   /* public void Choosen(Point position){
        Point point = position;
-        /*for (ModelObject object : model.getObjects()) {
+         for (ModelObject object : model.getObjects()) {
          if(((Pawn) object).getPosition() == position){ 
          }
         
-        }*/
+        }
          System.out.println(point);
     }  
+*/
     
     public Pawn.Color getColor() {
         return color;
