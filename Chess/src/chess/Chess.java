@@ -30,6 +30,7 @@ public class Chess extends Application {
     int NumOfClick =1;
     Point direction = new Point();
     Point pozice = new Point();
+    boolean sideToMove = true;
     
    
 
@@ -77,28 +78,33 @@ public class Chess extends Application {
             @Override
             public void handle(MouseEvent event) {
                      if(NumOfClick%2==0)
-                     {
-                     boolean rightToMove = false;    
+                     {     
+                     boolean rightToMove = false;
+                     boolean rightToMovePawn = false; 
                      int xosa = (int)event.getSceneX();
                      int yosa = (int)event.getSceneY();
                      xosa = xosa/100;
                      yosa = yosa/100;    
                      
                      direction = new Point(xosa,yosa);
-                      for (ModelObject object : model.getObjects()) {
-                          if( object.position.equals(pozice))
+                     for (ModelObject object : model.getObjects()) {
+                      if( object.position.equals(pozice) && sideToMove==true)
                           {               
                         if (object instanceof Pawn)
                              {
-                              if (((Pawn) object).getColor() == Pawn.Color.White){
-                                    if(direction.x == pozice.x && direction.y == pozice.y-1){
-                                        rightToMove=true;
-                                      }    
-                              }else{
-                                  if(direction.x== pozice.x && direction.y == pozice.y+1){
-                                        rightToMove=true;
-                                      }        
-                                   }                   
+                              if (((Pawn) object).getColor() == Pawn.Color.White){ 
+                                  Point vpred =  new Point(model.getOccupied(pozice, direction));            
+                                    if(direction.x == pozice.x && direction.y == pozice.y-1 && model.isFree(vpred)){
+                                        rightToMovePawn=true;
+                                        sideToMove=false;
+                                      }
+                                    else if((direction.x == pozice.x+1 && direction.y == pozice.y-1 
+                                           ||direction.x == pozice.x-1 && direction.y == pozice.y-1) 
+                                           && !model.isFree(vpred)){
+                                         rightToMove = true;
+                                         sideToMove=false;
+                                        }
+                                }                  
                              }
                         if (object instanceof Rook)
                              {
@@ -108,15 +114,9 @@ public class Chess extends Application {
                                        || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
                                        || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
                                         rightToMove=true;
+                                        sideToMove=false;
                                       }    
-                              }else{
-                                   if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-                                      || (direction.x == pozice.x && direction.y <= pozice.y+1)
-                                      || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-                                      || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
-                                        rightToMove=true;
-                                      }        
-                                   }                   
+                                }                 
                              }
                         if (object instanceof Bishop)
                              {
@@ -126,15 +126,9 @@ public class Chess extends Application {
                                        || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
                                        || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
                                         rightToMove=true;
+                                        sideToMove=false;
                                       }    
-                              }else{
-                                   if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-                                       || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-                                       || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
-                                        rightToMove=true;
-                                      }        
-                                   }                   
+                                   }                  
                              }
                         if (object instanceof Knight)
                              {
@@ -143,14 +137,9 @@ public class Chess extends Application {
                                        || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
                                        || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
                                         rightToMove=true;
+                                        sideToMove=false;
                                       }    
-                              }else{
-                                     if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
-                                       || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
-                                       || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
-                                        rightToMove=true;
-                                      }        
-                                   }                   
+                                 }                  
                              }  
                         if (object instanceof King)
                              {
@@ -160,26 +149,122 @@ public class Chess extends Application {
                                        ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
                                        ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
                                         rightToMove=true;
+                                        sideToMove=false;
                                       }    
-                              }else{
+                                }                 
+                             }
+      /*--Dodelat!!*/     if(object instanceof Queen){
+                            if(((Queen) object).getColor() == Queen.Color.White){
+                                boolean youCantMoveWheneverYouWant = true;
+                                if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1)
+                                  ||(direction.x >= pozice.x+1 && direction.y <= pozice.y+1)
+                                  ||(direction.x <= pozice.x-1 && direction.y <= pozice.y+1)  
+                                  ||(direction.x <= pozice.x-1 && direction.y >= pozice.y-1)){
+                                        rightToMove=true;
+                                        sideToMove=false;
+                                        youCantMoveWheneverYouWant=false;
+                                    }
+                               /* if((youCantMoveWheneverYouWant == true)&& 
+                                  (direction.x == pozice.x && direction.y >= pozice.y-1)
+                                  ||(direction.x == pozice.x && direction.y <= pozice.y+1) 
+                                  ||(direction.x >= pozice.x+1 && direction.y == pozice.y)
+                                  ||(direction.x <= pozice.x-1 && direction.y == pozice.y)){
+                                  rightToMove=true;
+                                  sideToMove=false;
+                                }*/
+                              }
+                            }
+                          }
+                      else if( object.position.equals(pozice) && sideToMove==false){ 
+                         
+                      
+                       if (object instanceof Pawn)
+                             {
+                              if (((Pawn) object).getColor() == Pawn.Color.Black){
+                                 Point vpred =  new Point(model.getOccupied(pozice, direction));            
+                                    if(direction.x == pozice.x && direction.y == pozice.y+1 && model.isFree(vpred)){
+                                        rightToMovePawn=true;
+                                        sideToMove=true;
+                                      }
+                                    else if((direction.x == pozice.x+1 && direction.y == pozice.y+1 
+                                           ||direction.x == pozice.x-1 && direction.y == pozice.y+1) 
+                                           && !model.isFree(vpred)){
+                                         rightToMove = true;
+                                         sideToMove=true;
+                                        }
+                                }                  
+                             }
+                        if (object instanceof Rook)
+                             {
+                              if (((Rook) object).getColor() == Rook.Color.Black){
+                                    if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+                                       || (direction.x == pozice.x && direction.y <= pozice.y+1)
+                                       || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+                                       || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                                        rightToMove=true;
+                                        sideToMove=true;
+                                      }    
+                                }                 
+                             }
+                        if (object instanceof Bishop)
+                             {
+                              if (((Bishop) object).getColor() == Bishop.Color.Black){
+                                    if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                       || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+                                       || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
+                                        rightToMove=true;
+                                        sideToMove=true;
+                                      }    
+                                   }                  
+                             }
+                        if (object instanceof Knight)
+                             {
+                              if (((Knight) object).getColor() == Knight.Color.Black){
+                                    if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
+                                       || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
+                                       || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
+                                        rightToMove=true;
+                                        sideToMove=true;
+                                      }    
+                                 }                  
+                             }  
+                        if (object instanceof King)
+                             {
+                              if (((King) object).getColor() == King.Color.Black){
                                     if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
                                        ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
                                        ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
                                        ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
                                         rightToMove=true;
-                                      }        
-                                   }                   
+                                        sideToMove=true;
+                                      }    
+                                }                 
                              }
-                          }
+                          } 
                        }                 
                      
                      Point vpred =  new Point(model.getOccupied(pozice, direction));  
-                     if(model.isFree(vpred) && rightToMove==true){  
+                     
+                     if(model.isFree(vpred) && rightToMovePawn==true){  
                      model.getObjectAt1(pozice,direction);      
                      }      
-                     else{
-                     System.out.println("Nelze se pohnout");
-                     }    
+                     else if(rightToMove==false){
+                     System.out.println("Nepovoleny tah, nebo je na tahu protivnik");
+                     } 
+                     
+                     
+                     if(rightToMove==true){
+                         if(model.isFree(vpred)){
+                           model.getObjectAt1(pozice,direction);
+                         }
+                         else{
+                          model.remove(vpred);
+                          model.getObjectAt1(pozice,direction);
+                         }
+                     }
+                     
+                     
                       NumOfClick++;
                      }else{
                          int xosa = (int)event.getSceneX();
@@ -210,6 +295,10 @@ public class Chess extends Application {
                                      if (object instanceof King)
                                      {
                                        System.out.println("Vybral jsi krale na pozici "+pozice);            
+                                     }
+                                     if (object instanceof Queen)
+                                     {
+                                       System.out.println("Vybral jsi kralovnu na pozici "+pozice);            
                                      }
                                     }
                                  }                    
