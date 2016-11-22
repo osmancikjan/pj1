@@ -90,18 +90,13 @@ public class Chess extends Application {
                      
                      direction = new Point(xosa,yosa);
                      for (ModelObject object : model.getObjects()) {
-                     /* if (object.position!=pozice)
-                      {
-                          System.out.println("Nic jsi nevybral");
-                          rightToMovePawn=false;
-                          rightToMove=false;
-                          break;
-                        }*/
                       if( object.position.equals(pozice) && sideToMove==true)
-                          {               
-                        if (object instanceof Pawn)
+                          {  
+                         if(object instanceof Figures)  
+                         {
+                          if (((Figures) object).getType() == Figures.Type.Pawn )
                              {
-                              if (((Pawn) object).getColor() == Pawn.Color.White){ 
+                              if (((Figures) object).getColor() == Figures.Color.White){ 
                                   Point vpred =  new Point(model.getOccupied(pozice, direction));            
                                     if(direction.x == pozice.x && direction.y == pozice.y-1 && model.isFree(vpred)){
                                         rightToMovePawn=true;
@@ -115,9 +110,9 @@ public class Chess extends Application {
                                         }
                                 }                  
                              }
-                        if (object instanceof Rook)
+                        if (((Figures) object).getType() == Figures.Type.Rook )
                              {
-                              if (((Rook) object).getColor() == Rook.Color.White){
+                              if (((Figures) object).getColor() == Figures.Color.White){
                                     if((direction.x == pozice.x && direction.y >= pozice.y-1) 
                                        || (direction.x == pozice.x && direction.y <= pozice.y+1)
                                        || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
@@ -127,9 +122,9 @@ public class Chess extends Application {
                                       }    
                                 }                 
                              }
-                        if (object instanceof Bishop)
+                        if (((Figures) object).getType() == Figures.Type.Bishop )
                              {
-                              if (((Bishop) object).getColor() == Bishop.Color.White){
+                              if (((Figures) object).getColor() == Figures.Color.White){
                                     if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
                                        || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
                                        || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
@@ -139,9 +134,9 @@ public class Chess extends Application {
                                       }    
                                    }                  
                              }
-                        if (object instanceof Knight)
+                        if (((Figures) object).getType() == Figures.Type.Knight )
                              {
-                              if (((Knight) object).getColor() == Knight.Color.White){
+                              if (((Figures) object).getColor() == Figures.Color.White){
                                     if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)
                                             || (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
                                        || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)
@@ -152,9 +147,9 @@ public class Chess extends Application {
                                       }    
                                  }                  
                              }  
-                        if (object instanceof King)
+                        if (((Figures) object).getType() == Figures.Type.King )
                              {
-                              if (((King) object).getColor() == King.Color.White){
+                              if (((Figures) object).getColor() == Figures.Color.White){
                                     if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
                                        ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
                                        ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
@@ -164,8 +159,9 @@ public class Chess extends Application {
                                       }    
                                 }                 
                              }
-      /*--Dodelat!!*/     if(object instanceof Queen){
-                            if(((Queen) object).getColor() == Queen.Color.White){
+      /*--Dodelat!!*/     if (((Figures) object).getType() == Figures.Type.Queen )
+                                {
+                            if (((Figures) object).getColor() == Figures.Color.White){
                                 boolean youCantMoveWheneverYouWant = true;
                                 if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1)
                                   ||(direction.x >= pozice.x+1 && direction.y <= pozice.y+1)
@@ -185,11 +181,14 @@ public class Chess extends Application {
                                 }*/
                               }
                             }
+                           }
                           }
                       else if( object.position.equals(pozice) && sideToMove==false){ 
-                       if (object instanceof Pawn)
+                       if(object instanceof Figures)  
+                         {
+                          if (((Figures) object).getType() == Figures.Type.Pawn )
                              {
-                              if (((Pawn) object).getColor() == Pawn.Color.Black){
+                              if (((Figures) object).getColor() == Figures.Color.Black){
                                  Point vpred =  new Point(model.getOccupied(pozice, direction));            
                                     if(direction.x == pozice.x && direction.y == pozice.y+1 && model.isFree(vpred)){
                                         rightToMovePawn=true;
@@ -203,9 +202,9 @@ public class Chess extends Application {
                                         }
                                 }                  
                              }
-                        if (object instanceof Rook)
+                        if (((Figures) object).getType() == Figures.Type.Rook )
                              {
-                              if (((Rook) object).getColor() == Rook.Color.Black){
+                              if (((Figures) object).getColor() == Figures.Color.Black){
                                     if((direction.x == pozice.x && direction.y >= pozice.y-1) 
                                        || (direction.x == pozice.x && direction.y <= pozice.y+1)
                                        || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
@@ -215,9 +214,9 @@ public class Chess extends Application {
                                       }    
                                 }                 
                              }
-                        if (object instanceof Bishop)
+                        if (((Figures) object).getType() == Figures.Type.Bishop )
                              {
-                              if (((Bishop) object).getColor() == Bishop.Color.Black){
+                              if (((Figures) object).getColor() == Figures.Color.Black){
                                     if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
                                        || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
                                        || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
@@ -227,9 +226,9 @@ public class Chess extends Application {
                                       }    
                                    }                  
                              }
-                        if (object instanceof Knight)
+                        if (((Figures) object).getType() == Figures.Type.Knight )
                              {
-                              if (((Knight) object).getColor() == Knight.Color.Black){
+                              if (((Figures) object).getColor() == Figures.Color.Black){
                                     if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
                                        || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
                                        || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
@@ -238,9 +237,9 @@ public class Chess extends Application {
                                       }    
                                  }                  
                              }  
-                        if (object instanceof King)
+                        if (((Figures) object).getType() == Figures.Type.King )
                              {
-                              if (((King) object).getColor() == King.Color.Black){
+                              if (((Figures) object).getColor() == Figures.Color.Black){
                                     if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
                                        ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
                                        ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
@@ -250,8 +249,23 @@ public class Chess extends Application {
                                       }    
                                 }                 
                              }
+                          if (((Figures) object).getType() == Figures.Type.Queen )
+                                {
+                            if (((Figures) object).getColor() == Figures.Color.Black){
+                                boolean youCantMoveWheneverYouWant = true;
+                                if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1)
+                                  ||(direction.x >= pozice.x+1 && direction.y <= pozice.y+1)
+                                  ||(direction.x <= pozice.x-1 && direction.y <= pozice.y+1)  
+                                  ||(direction.x <= pozice.x-1 && direction.y >= pozice.y-1)){
+                                        rightToMove=true;
+                                        sideToMove=false;
+                                        youCantMoveWheneverYouWant=false;
+                                    }
+                              }
+                            }
                           }                      
-                       }                 
+                       }
+                     }
                      if(chooseAndPlay==false){
                      Point vpred =  new Point(model.getOccupied(pozice, direction));  
                      if(vpred!=null){
@@ -284,34 +298,37 @@ public class Chess extends Application {
                          pozice = new Point(xosa,yosa);
                             for (ModelObject object : model.getObjects()) {
                                 if( object.position.equals(pozice))
-                                    {               
-                                     if (object instanceof Pawn)
+                                    { 
+                                     if(object instanceof Figures){
+                                   
+                                     if (((Figures) object).getType() == Figures.Type.Pawn )
                                      {
                                        System.out.println("Vybral jsi pincla na pozici "+pozice);  
                                      }
-                                     if (object instanceof Rook)
+                                     if (((Figures) object).getType() == Figures.Type.Rook )
                                      {
                                        System.out.println("Vybral jsi vez na pozici "+pozice);            
                                      }
-                                     if (object instanceof Bishop)
+                                      if (((Figures) object).getType() == Figures.Type.Bishop )
                                      {
                                        System.out.println("Vybral jsi strelce na pozici "+pozice);            
                                      }
-                                     if (object instanceof Knight)
+                                     if (((Figures) object).getType() == Figures.Type.Knight )
                                      {
                                        System.out.println("Vybral jsi kone na pozici "+pozice);            
                                      }
-                                     if (object instanceof King)
+                                     if (((Figures) object).getType() == Figures.Type.King )
                                      {
                                        System.out.println("Vybral jsi krale na pozici "+pozice);            
                                      }
-                                     if (object instanceof Queen)
+                                     if (((Figures) object).getType() == Figures.Type.Queen )
                                      {
                                        System.out.println("Vybral jsi kralovnu na pozici "+pozice);            
                                      }
                                       chooseAndPlay= false;
                                     }
                                  } 
+                            }
                      }
                     view.update();               
             }

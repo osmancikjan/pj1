@@ -22,12 +22,7 @@ public class Model {
     
     private ArrayList<ModelObject> objects = new ArrayList<>();
     private ArrayList<ModelObject> back = new ArrayList<>();
-    private Pawn pawn;
-    private Knight knight;
-    private Rook rook;
-    private Bishop bishop;
-    private Queen queen;
-    private King king;
+    private Figures figure;
     
     
     public ArrayList<ModelObject> getObjects() {
@@ -80,17 +75,7 @@ public class Model {
                 return;
             }
         }
-    }
-   /* public synchronized void Choosen(Point position) {
-       for(ModelObject object:objects) {
-            if (object.getPosition().equals(position))
-            {
-               pawn.Choosen(position);
-            }
-        }
-    }   */ 
-      
-  
+    } 
       
     public synchronized void initGame() {
         objects.clear();
@@ -121,56 +106,55 @@ public class Model {
             }
             i++;
         }
-        /*pawns*/
+        /*Figures*/
         for (int k=0;k<8;k++){
         Point possition = new Point(k,6);
-        pawn = new Pawn(possition, this,Pawn.Color.White);
-        objects.add(pawn);
+        figure = new Figures(possition, this,Figures.Color.White,Figures.Type.Pawn);
+        objects.add(figure);
         possition = new Point(k,1);
-        pawn = new Pawn(possition, this,Pawn.Color.Black);
-        objects.add(pawn);
+        figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.Pawn);
+        objects.add(figure);
         }
-        /*knights*/
+        
         for (int k=1;k<7;k=k+5){
         Point possition = new Point(k,7);
-        knight = new Knight(possition, this,Knight.Color.White);
-        objects.add(knight);
+        figure = new Figures(possition, this,Figures.Color.White,Figures.Type.Knight);
+        objects.add(figure);
         possition = new Point(k,0);
-        knight = new Knight(possition, this,Knight.Color.Black);
-        objects.add(knight);
+        figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.Knight);
+        objects.add(figure);
         }
-        /*rooks*/
+        
         for (int k=0;k<8;k=k+7){
         Point possition = new Point(k,7);
-        rook = new Rook(possition, this,Rook.Color.White);
-        objects.add(rook);
+        figure = new Figures(possition, this,Figures.Color.White,Figures.Type.Rook);
+        objects.add(figure);
         possition = new Point(k,0);
-        rook = new Rook(possition, this,Rook.Color.Black);
-        objects.add(rook);
+        figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.Rook);
+        objects.add(figure);
         }
-        /*Bishops*/
+        
         for (int k=2;k<6;k=k+3){
         Point possition = new Point(k,7);
-        bishop = new Bishop(possition, this,Bishop.Color.White);
-        objects.add(bishop);
+        figure = new Figures(possition, this,Figures.Color.White,Figures.Type.Bishop);
+        objects.add(figure);
         possition = new Point(k,0);
-        bishop = new Bishop(possition, this,Bishop.Color.Black);
-        objects.add(bishop);
-        }
-        /*Queens*/ 
+        figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.Bishop);
+        objects.add(figure);
+        } 
+        
         Point possition = new Point(4,7);
-        queen = new Queen(possition, this,Queen.Color.White);
-        objects.add(queen);
+        figure = new Figures(possition, this,Figures.Color.White,Figures.Type.Queen);
+        objects.add(figure);
         possition = new Point(4,0);
-        queen = new Queen(possition, this,Queen.Color.Black);
-        objects.add(queen);    
-        /*Kings*/
+        figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.Queen);
+        objects.add(figure);    
+        
         possition = new Point(3,7);
-        king = new King(possition, this,King.Color.White);
-        objects.add(king);
+        figure = new Figures(possition, this,Figures.Color.White,Figures.Type.King);
+        objects.add(figure);
         possition = new Point(3,0);
-        king = new King(possition, this,King.Color.Black);
-        objects.add(king);
-        System.out.println(possition); //pozice černého krále
+        figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.King);
+        objects.add(figure);
     }
 }

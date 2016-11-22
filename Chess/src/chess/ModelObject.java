@@ -30,10 +30,6 @@ public abstract class ModelObject {
     public Point getPosition() {
         return this.position;
     }
-   
-    protected void move(int offsetX, int offsetY) {
-        position = new Point(getX() + offsetX, getY() + offsetY);
-    }
 
     public abstract void process();
 }

@@ -79,60 +79,46 @@ public class View {
                     drawSquare(object.getX(), object.getY(), image);
                 }
                }
-                for (ModelObject object : model.getObjects()) {
+               for (ModelObject object : model.getObjects()) {
                 Image image = null;
-                if (object instanceof Pawn)
+                if (object instanceof Figures)
                 {
-                    if (((Pawn) object).getColor() == Pawn.Color.White){
-                    image = white_pawn;
+                    if(((Figures) object).getColor() == Figures.Color.White && ((Figures) object).getType() == Figures.Type.Pawn ){
+                        image = white_pawn;
                     }
-                    else {
-                    image = black_pawn;
+                    else if(((Figures) object).getColor() == Figures.Color.Black && ((Figures) object).getType() == Figures.Type.Pawn)
+                    {
+                        image = black_pawn;
                     }       
-                }
-                if (object instanceof Knight)
-                {
-                    if (((Knight) object).getColor() == Knight.Color.White){
-                    image = white_knight;
+                    else if(((Figures) object).getColor() == Figures.Color.White && ((Figures) object).getType() == Figures.Type.Knight){
+                        image = white_knight;
                     }
-                    else {
-                    image = black_knight;
+                    else if(((Figures) object).getColor() == Figures.Color.Black && ((Figures) object).getType() == Figures.Type.Knight){
+                        image = black_knight;
                     }
-                }
-                if (object instanceof Rook)
-                {
-                    if (((Rook) object).getColor() == Rook.Color.White){
-                    image = white_rook;
+                    else if(((Figures) object).getColor() == Figures.Color.White && ((Figures) object).getType() == Figures.Type.Rook){
+                        image = white_rook;
                     }
-                    else {
-                    image = black_rook;
+                    else if(((Figures) object).getColor() == Figures.Color.Black && ((Figures) object).getType() == Figures.Type.Rook){
+                        image = black_rook;
                     }
-                }
-                if (object instanceof Bishop)
-                {
-                    if (((Bishop) object).getColor() == Bishop.Color.White){
-                    image = white_bishop;
+                    else if(((Figures) object).getColor() == Figures.Color.White && ((Figures) object).getType() == Figures.Type.Bishop){
+                        image = white_bishop;
                     }
-                    else {
-                    image = black_bishop;
+                    else if(((Figures) object).getColor() == Figures.Color.Black && ((Figures) object).getType() == Figures.Type.Bishop){
+                        image = black_bishop;
                     }
-                }
-                if (object instanceof Queen)
-                {
-                    if (((Queen) object).getColor() == Queen.Color.White){
-                    image = white_queen;
+                    else if(((Figures) object).getColor() == Figures.Color.White && ((Figures) object).getType() == Figures.Type.Queen){
+                        image = white_queen;
                     }
-                    else {
-                    image = black_queen;
+                    else if(((Figures) object).getColor() == Figures.Color.Black && ((Figures) object).getType() == Figures.Type.Queen){
+                        image = black_queen;
                     }
-                }
-                if (object instanceof King)
-                {
-                    if (((King) object).getColor() == King.Color.White){
-                    image = white_king;
+                    else if(((Figures) object).getColor() == Figures.Color.White && ((Figures) object).getType() == Figures.Type.King){
+                        image = white_king;
                     }
-                    else {
-                    image = black_king;
+                    else if(((Figures) object).getColor() == Figures.Color.Black && ((Figures) object).getType() == Figures.Type.King){
+                        image = black_king;
                     }
                 }
                 drawSquare(object.getX(), object.getY(), image);
