@@ -60,6 +60,8 @@ public class Model {
         return null; 
      }
      
+     
+     
     public synchronized ModelObject getObjectAt1(Point position, Point direction){
         for(ModelObject object:objects) {
             if (object.getPosition().equals(position))
