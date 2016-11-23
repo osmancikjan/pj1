@@ -125,10 +125,11 @@ public class Chess extends Application {
                         if (((Figures) object).getType() == Figures.Type.Bishop )
                              {
                               if (((Figures) object).getColor() == Figures.Color.White){
-                                    if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                    if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
                                        || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
                                        || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
+                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+                                       && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
                                         rightToMove=true;
                                         sideToMove=false;
                                       }    
@@ -138,9 +139,9 @@ public class Chess extends Application {
                              {
                               if (((Figures) object).getColor() == Figures.Color.White){
                                     if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)
-                                            || (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
+                                       || (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
                                        || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)
-                                            || (direction.x == pozice.x+1 && direction.y == pozice.y-2)
+                                       || (direction.x == pozice.x+1 && direction.y == pozice.y-2)
                                        || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
                                         rightToMove=true;
                                         sideToMove=false;
@@ -162,25 +163,24 @@ public class Chess extends Application {
       /*--Dodelat!!*/     if (((Figures) object).getType() == Figures.Type.Queen )
                                 {
                             if (((Figures) object).getColor() == Figures.Color.White){
-                                boolean youCantMoveWheneverYouWant = true;
-                                if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1)
-                                  ||(direction.x >= pozice.x+1 && direction.y <= pozice.y+1)
-                                  ||(direction.x <= pozice.x-1 && direction.y <= pozice.y+1)  
-                                  ||(direction.x <= pozice.x-1 && direction.y >= pozice.y-1)){
+                                if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                  || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+                                  || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+                                  || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+                                  && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y)))
+                                   {
+                                        rightToMove=true;
+                                        sideToMove=false;                                      
+                                   }
+                                if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+                                   || (direction.x == pozice.x && direction.y <= pozice.y+1)
+                                   || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+                                   || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
                                         rightToMove=true;
                                         sideToMove=false;
-                                        youCantMoveWheneverYouWant=false;
-                                    }
-                               /* if((youCantMoveWheneverYouWant == true)&& 
-                                  (direction.x == pozice.x && direction.y >= pozice.y-1)
-                                  ||(direction.x == pozice.x && direction.y <= pozice.y+1) 
-                                  ||(direction.x >= pozice.x+1 && direction.y == pozice.y)
-                                  ||(direction.x <= pozice.x-1 && direction.y == pozice.y)){
-                                  rightToMove=true;
-                                  sideToMove=false;
-                                }*/
+                                      }   
+                                }
                               }
-                            }
                            }
                           }
                       else if( object.position.equals(pozice) && sideToMove==false){ 
@@ -217,13 +217,15 @@ public class Chess extends Application {
                         if (((Figures) object).getType() == Figures.Type.Bishop )
                              {
                               if (((Figures) object).getColor() == Figures.Color.Black){
-                                    if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                    if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
                                        || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
                                        || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1)){
+                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+                                       && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
+                                        
                                         rightToMove=true;
                                         sideToMove=true;
-                                      }    
+                                     }    
                                    }                  
                              }
                         if (((Figures) object).getType() == Figures.Type.Knight )
@@ -252,15 +254,22 @@ public class Chess extends Application {
                           if (((Figures) object).getType() == Figures.Type.Queen )
                                 {
                             if (((Figures) object).getColor() == Figures.Color.Black){
-                                boolean youCantMoveWheneverYouWant = true;
-                                if((direction.x >= pozice.x+1 && direction.y >= pozice.y-1)
-                                  ||(direction.x >= pozice.x+1 && direction.y <= pozice.y+1)
-                                  ||(direction.x <= pozice.x-1 && direction.y <= pozice.y+1)  
-                                  ||(direction.x <= pozice.x-1 && direction.y >= pozice.y-1)){
+                               if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+                                  || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+                                  || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+                                  || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+                                  && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y)))
+                                   {
+                                        rightToMove=true;
+                                        sideToMove=false;                                      
+                                   }
+                                if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+                                   || (direction.x == pozice.x && direction.y <= pozice.y+1)
+                                   || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+                                   || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
                                         rightToMove=true;
                                         sideToMove=false;
-                                        youCantMoveWheneverYouWant=false;
-                                    }
+                                      }  
                               }
                             }
                           }                      

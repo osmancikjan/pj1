@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Pavel
+ * @author Dro0076
  */
 public class Figures extends ModelObject {
     
@@ -27,7 +27,7 @@ public class Figures extends ModelObject {
      }
      private final Type type;
      
-      public Figures(Point position, Model model, Color color, Type type) {
+    public Figures(Point position, Model model, Color color, Type type) {
         super(position);
         this.model = model;
         this.color = color;
