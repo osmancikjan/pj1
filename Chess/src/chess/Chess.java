@@ -8,14 +8,20 @@ package chess;
 import java.awt.Point;
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -26,15 +32,19 @@ public class Chess extends Application {
     private Model model;
     private View view;
     private Controller controller;
+    private Movement movement;
     private ArrayList<ModelObject> objects = new ArrayList<>();
     Point direction = new Point();
     Point pozice = new Point();
     boolean sideToMove = true;
     boolean chooseAndPlay = true;
+    boolean rightToMove = false;
+    boolean rightToMovePawn = false; 
    
 
     public Chess() {
         model = new Model();
+        movement = new Movement();
     }
     
     
@@ -79,10 +89,50 @@ public class Chess extends Application {
             @Override
             public void handle(MouseEvent event) {
                      
-                     if(chooseAndPlay==false)
-                     {     
-                     boolean rightToMove = false;
-                     boolean rightToMovePawn = false; 
+                     if(chooseAndPlay==true)
+                     {
+                       int xosa = (int)event.getSceneX();
+                         int yosa = (int)event.getSceneY();
+                         xosa = xosa/100;
+                         yosa = yosa/100;
+                         
+                         pozice = new Point(xosa,yosa);
+                            for (ModelObject object : model.getObjects()) {
+                                if( object.position.equals(pozice))
+                                    { 
+                                     if(object instanceof Figures){
+                                   
+                                     if (((Figures) object).getType() == Figures.Type.Pawn )
+                                     {
+                                       System.out.println("Vybral jsi pincla na pozici "+pozice);  
+                                     }
+                                     if (((Figures) object).getType() == Figures.Type.Rook )
+                                     {
+                                       System.out.println("Vybral jsi vez na pozici "+pozice);            
+                                     }
+                                      if (((Figures) object).getType() == Figures.Type.Bishop )
+                                     {
+                                       System.out.println("Vybral jsi strelce na pozici "+pozice);            
+                                     }
+                                     if (((Figures) object).getType() == Figures.Type.Knight )
+                                     {
+                                       System.out.println("Vybral jsi kone na pozici "+pozice);            
+                                     }
+                                     if (((Figures) object).getType() == Figures.Type.King )
+                                     {
+                                       System.out.println("Vybral jsi krale na pozici "+pozice);            
+                                     }
+                                     if (((Figures) object).getType() == Figures.Type.Queen )
+                                     {
+                                       System.out.println("Vybral jsi kralovnu na pozici "+pozice);            
+                                     }
+                                      chooseAndPlay= false;
+                                    }
+                                 } 
+                            }    
+                     }else{
+                     rightToMove = false;
+                     rightToMovePawn = false; 
                      int xosa = (int)event.getSceneX();
                      int yosa = (int)event.getSceneY();
                      xosa = xosa/100;
@@ -96,20 +146,14 @@ public class Chess extends Application {
                          {
                           if (((Figures) object).getType() == Figures.Type.Pawn )
                              {
-                              if (((Figures) object).getColor() == Figures.Color.White){ 
-                                  Point vpred =  new Point(model.getOccupied(pozice, direction));            
-                                    if(direction.x == pozice.x && direction.y == pozice.y-1 && model.isFree(vpred)){
-                                        rightToMovePawn=true;
-                                        sideToMove=false;
-                                      }
-                                    else if((direction.x == pozice.x+1 && direction.y == pozice.y-1 
-                                           ||direction.x == pozice.x-1 && direction.y == pozice.y-1) 
-                                           && !model.isFree(vpred)){
-                                         rightToMove = true;
-                                         sideToMove=false;
-                                        }
-                                }                  
+                              if (((Figures) object).getColor() == Figures.Color.White){                                 
+                                    if(movement.MoveThatFigure(1,pozice,direction)){
+                                     rightToMove=true;
+                                     sideToMove=false;
+                                  }                                
+                               }
                              }
+                        
                         if (((Figures) object).getType() == Figures.Type.Rook )
                              {
                               if (((Figures) object).getColor() == Figures.Color.White){
@@ -160,7 +204,7 @@ public class Chess extends Application {
                                       }    
                                 }                 
                              }
-      /*--Dodelat!!*/     if (((Figures) object).getType() == Figures.Type.Queen )
+                        if (((Figures) object).getType() == Figures.Type.Queen )
                                 {
                             if (((Figures) object).getColor() == Figures.Color.White){
                                 if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
@@ -182,6 +226,7 @@ public class Chess extends Application {
                                 }
                               }
                            }
+                         
                           }
                       else if( object.position.equals(pozice) && sideToMove==false){ 
                        if(object instanceof Figures)  
@@ -272,7 +317,7 @@ public class Chess extends Application {
                                       }  
                               }
                             }
-                          }                      
+                          }                           
                        }
                      }
                      if(chooseAndPlay==false){
@@ -298,46 +343,7 @@ public class Chess extends Application {
                      }
                      }
                      chooseAndPlay = true;
-                     }else{
-                         int xosa = (int)event.getSceneX();
-                         int yosa = (int)event.getSceneY();
-                         xosa = xosa/100;
-                         yosa = yosa/100;
-                         
-                         pozice = new Point(xosa,yosa);
-                            for (ModelObject object : model.getObjects()) {
-                                if( object.position.equals(pozice))
-                                    { 
-                                     if(object instanceof Figures){
-                                   
-                                     if (((Figures) object).getType() == Figures.Type.Pawn )
-                                     {
-                                       System.out.println("Vybral jsi pincla na pozici "+pozice);  
-                                     }
-                                     if (((Figures) object).getType() == Figures.Type.Rook )
-                                     {
-                                       System.out.println("Vybral jsi vez na pozici "+pozice);            
-                                     }
-                                      if (((Figures) object).getType() == Figures.Type.Bishop )
-                                     {
-                                       System.out.println("Vybral jsi strelce na pozici "+pozice);            
-                                     }
-                                     if (((Figures) object).getType() == Figures.Type.Knight )
-                                     {
-                                       System.out.println("Vybral jsi kone na pozici "+pozice);            
-                                     }
-                                     if (((Figures) object).getType() == Figures.Type.King )
-                                     {
-                                       System.out.println("Vybral jsi krale na pozici "+pozice);            
-                                     }
-                                     if (((Figures) object).getType() == Figures.Type.Queen )
-                                     {
-                                       System.out.println("Vybral jsi kralovnu na pozici "+pozice);            
-                                     }
-                                      chooseAndPlay= false;
-                                    }
-                                 } 
-                            }
+                       
                      }
                     view.update();               
             }
@@ -354,8 +360,15 @@ public class Chess extends Application {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
     }
 
+    
+     class SubWindow extends Stage{
+         
+    }
+    
+    
     /**
      * @param args the command line arguments
      */

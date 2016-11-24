@@ -68,7 +68,7 @@ public class Model {
         return null;
     }
     
-      public synchronized void remove(Point position) {
+    public synchronized void remove(Point position) {
         for(ModelObject object:objects) {
             if (object.getPosition().equals(position)) {
                 objects.remove(object);
