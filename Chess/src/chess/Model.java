@@ -37,24 +37,8 @@ public class Model {
     }
     
     public boolean isFree(Point point) {
-        for (ModelObject object:objects) {
-            if (object.getPosition().equals(point)) {
-                return false;
-            }
-        }
-        return true;
+        return objects.stream().noneMatch((object) -> (object.getPosition().equals(point)));
     }
-     public synchronized Point getOccupied(Point position, Point direction){
-         for(ModelObject object:objects) {
-            if (object.getPosition().equals(position))
-            {
-               Point moveTo = new Point(direction.x,direction.y);
-               return moveTo;
-            }
-     }
-        return null; 
-     }
-     
      
      
     public synchronized ModelObject getObjectAt1(Point position, Point direction){

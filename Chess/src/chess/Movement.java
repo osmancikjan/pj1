@@ -13,37 +13,183 @@ import java.awt.Point;
  */
 public class Movement {
     private Model model;
-    private boolean move=false;
+    private Figures figure;
     private boolean side=true;
+    private boolean pawnTaking = false;
+    private boolean pom;
     
     public Movement(){
        model = new Model();
     }
    
-    public synchronized boolean MoveThatFigure(int value, Point pozice,Point direction){
-        switch(value){
-            case 1:  Point vpred =  new Point(model.getOccupied(pozice, direction));            
-                          if(direction.x == pozice.x && direction.y == pozice.y-1 && model.isFree(vpred)){
-                             //this.move = true;
-                             //this.side = false;
-                             return true;
-                             }
-                           else if((direction.x == pozice.x+1 && direction.y == pozice.y-1 
-                                   ||direction.x == pozice.x-1 && direction.y == pozice.y-1) 
-                                    && !model.isFree(vpred)){
-                                       // this.move = true;
-                                        //this.side = false;
-                                        return true;
-                                   }
-                          
-           default: return false;
+public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ,Point pozice,Point direction){
+    if(color == Figures.Color.White && side==true){    
+     
+        if(typ == Figures.Type.Pawn){     
+                        if(direction.x == pozice.x && direction.y == pozice.y-1){
+                            side = false; 
+                            return true;
+                        }
+                        else if(direction.x == pozice.x-1 && direction.y == pozice.y-1 
+                                 ||direction.x == pozice.x+1 && direction.y == pozice.y-1){
+                                 side = false; 
+                                 this.pawnTaking= true;
+                                 return true;
+                                 } 
+        }                    
+ 
+        if (typ == Figures.Type.Rook){
+            if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+            || (direction.x == pozice.x && direction.y <= pozice.y+1)
+            || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+            || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                 side = false;
+                 return true;
+            }
         }
-    }
-    
-    public boolean GetMoveBool(){
-        return this.move;
-    }
-    public boolean GetSideBool(){
-        return this.side;
-    }
+        
+        if (typ == Figures.Type.Knight){
+            if((direction.x == pozice.x+2 && direction.y == pozice.y-1)
+               || (direction.x == pozice.x-2 && direction.y == pozice.y-1)
+               || (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
+               || (direction.x == pozice.x+2 && direction.y == pozice.y+1)
+               || (direction.x == pozice.x+1 && direction.y == pozice.y+2)
+               || (direction.x == pozice.x+1 && direction.y == pozice.y-2)
+               || (direction.x == pozice.x-1 && direction.y == pozice.y-2)
+               || (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
+                    side = false;
+                    return true;
+            }              
+        }
+        
+        if (typ == Figures.Type.Bishop){
+            if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+             || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+             || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+             || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+             && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
+                    side = false;
+                    return true;
+            }
+        }
+        
+        if (typ == Figures.Type.Queen){
+           if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+           || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+           || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+           || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+           && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
+                    side = false;
+                    return true;
+           }
+           if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+           || (direction.x == pozice.x && direction.y <= pozice.y+1)
+           || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+           || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                    side = false;
+                    return true;
+           }  
+         }
+         
+        if (typ == Figures.Type.King){ 
+             if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
+             ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
+             ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
+             ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
+                     side = false;
+                     return true;                 
+        }
+        }
+       
+    }else if(color == Figures.Color.Black && side==false){
+        
+        if(typ == Figures.Type.Pawn){           
+           if(direction.x == pozice.x && direction.y == pozice.y+1 && model.isFree(direction)){
+                    side = true;
+                    return true;
+            }
+            else if((direction.x == pozice.x+1 && direction.y == pozice.y+1 
+            ||direction.x == pozice.x-1 && direction.y == pozice.y+1) 
+            && !model.isFree(direction)){
+                    side = true;
+                    return true;                    
+            }
+        }  
+        
+        if (typ == Figures.Type.Rook){
+          if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+            || (direction.x == pozice.x && direction.y <= pozice.y+1)
+            || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+            || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                    side = true;
+                    return true;
+          }    
+         }
+         
+        if (typ == Figures.Type.Knight){
+           if((direction.x == pozice.x+2 && direction.y == pozice.y-1)
+              || (direction.x == pozice.x-2 && direction.y == pozice.y-1)
+              || (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
+              || (direction.x == pozice.x+2 && direction.y == pozice.y+1)
+              || (direction.x == pozice.x+1 && direction.y == pozice.y+2)
+              || (direction.x == pozice.x+1 && direction.y == pozice.y-2)
+              || (direction.x == pozice.x-1 && direction.y == pozice.y-2)
+              || (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
+                    side = true;
+                    return true;  
+           }
+        }
+         
+        if (typ == Figures.Type.Bishop){
+           if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+              || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+              || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+              || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+              && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
+                      side = true;
+                      return true;
+             }
+        }
+        
+         if (typ == Figures.Type.Queen){
+             if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
+             || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
+             || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
+             || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+             && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y)))
+               {
+                        side = true;
+                        return true;                                     
+               }
+             if((direction.x == pozice.x && direction.y >= pozice.y-1) 
+                || (direction.x == pozice.x && direction.y <= pozice.y+1)
+                || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
+                || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+                        side = true;
+                        return true;
+                }  
+         }
+         
+         
+         if (typ == Figures.Type.King){ 
+              if(direction.x == pozice.x && direction.y == pozice.y-1 
+                ||direction.x == pozice.x-1 && direction.y == pozice.y-1
+                ||direction.x == pozice.x && direction.y == pozice.y+1 
+                ||direction.x == pozice.x-1 && direction.y == pozice.y+1
+                ||direction.x == pozice.x+1 && direction.y == pozice.y 
+                ||direction.x == pozice.x+1 && direction.y == pozice.y-1
+                ||direction.x == pozice.x-1 && direction.y == pozice.y 
+                ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
+                        side = true;
+                        return true;
+              }                                
+         }
+      }   
+ return false;          
+}
+
+public boolean PawnTaking(){
+     return this.pawnTaking;
+ }
+
 }

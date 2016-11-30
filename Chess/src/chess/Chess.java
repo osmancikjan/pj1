@@ -104,7 +104,7 @@ public class Chess extends Application {
                                    
                                      if (((Figures) object).getType() == Figures.Type.Pawn )
                                      {
-                                       System.out.println("Vybral jsi pincla na pozici "+pozice);  
+                                       System.out.println("Vybral jsi pincla na pozici "+pozice);   
                                      }
                                      if (((Figures) object).getType() == Figures.Type.Rook )
                                      {
@@ -131,6 +131,7 @@ public class Chess extends Application {
                                  } 
                             }    
                      }else{
+                     
                      rightToMove = false;
                      rightToMovePawn = false; 
                      int xosa = (int)event.getSceneX();
@@ -140,214 +141,57 @@ public class Chess extends Application {
                      
                      direction = new Point(xosa,yosa);
                      for (ModelObject object : model.getObjects()) {
-                      if( object.position.equals(pozice) && sideToMove==true)
-                          {  
-                         if(object instanceof Figures)  
-                         {
-                          if (((Figures) object).getType() == Figures.Type.Pawn )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.White){                                 
-                                    if(movement.MoveThatFigure(1,pozice,direction)){
-                                     rightToMove=true;
-                                     sideToMove=false;
-                                  }                                
-                               }
-                             }
-                        
-                        if (((Figures) object).getType() == Figures.Type.Rook )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.White){
-                                    if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-                                       || (direction.x == pozice.x && direction.y <= pozice.y+1)
-                                       || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-                                       || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
-                                        rightToMove=true;
-                                        sideToMove=false;
-                                      }    
-                                }                 
-                             }
-                        if (((Figures) object).getType() == Figures.Type.Bishop )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.White){
-                                    if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-                                       || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-                                       || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
-                                       && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
-                                        rightToMove=true;
-                                        sideToMove=false;
-                                      }    
-                                   }                  
-                             }
-                        if (((Figures) object).getType() == Figures.Type.Knight )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.White){
-                                    if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)
-                                       || (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
-                                       || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)
-                                       || (direction.x == pozice.x+1 && direction.y == pozice.y-2)
-                                       || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
-                                        rightToMove=true;
-                                        sideToMove=false;
-                                      }    
-                                 }                  
-                             }  
-                        if (((Figures) object).getType() == Figures.Type.King )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.White){
-                                    if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
-                                       ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
-                                       ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
-                                       ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
-                                        rightToMove=true;
-                                        sideToMove=false;
-                                      }    
-                                }                 
-                             }
-                        if (((Figures) object).getType() == Figures.Type.Queen )
-                                {
-                            if (((Figures) object).getColor() == Figures.Color.White){
-                                if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-                                  || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-                                  || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                  || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
-                                  && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y)))
-                                   {
-                                        rightToMove=true;
-                                        sideToMove=false;                                      
+                      
+                      if( object.position.equals(pozice))
+                        {    
+                          if(object instanceof Figures)  
+                          {
+                            if(movement.MoveThatFigure(((Figures) object).getColor(),((Figures) object).getType(),pozice,direction)){
+                                
+                                    if(((Figures) object).getType() == Figures.Type.Pawn)
+                                     { 
+                                             rightToMovePawn=true;                                     
+                                     }
+                                    else if (((Figures) object).getType() !=Figures.Type.Pawn){
+                                         rightToMove=true;  
                                    }
-                                if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-                                   || (direction.x == pozice.x && direction.y <= pozice.y+1)
-                                   || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-                                   || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
-                                        rightToMove=true;
-                                        sideToMove=false;
-                                      }   
                                 }
-                              }
-                           }
-                         
                           }
-                      else if( object.position.equals(pozice) && sideToMove==false){ 
-                       if(object instanceof Figures)  
-                         {
-                          if (((Figures) object).getType() == Figures.Type.Pawn )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.Black){
-                                 Point vpred =  new Point(model.getOccupied(pozice, direction));            
-                                    if(direction.x == pozice.x && direction.y == pozice.y+1 && model.isFree(vpred)){
-                                        rightToMovePawn=true;
-                                        sideToMove=true;
-                                      }
-                                    else if((direction.x == pozice.x+1 && direction.y == pozice.y+1 
-                                           ||direction.x == pozice.x-1 && direction.y == pozice.y+1) 
-                                           && !model.isFree(vpred)){
-                                         rightToMove = true;
-                                         sideToMove=true;
-                                        }
-                                }                  
-                             }
-                        if (((Figures) object).getType() == Figures.Type.Rook )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.Black){
-                                    if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-                                       || (direction.x == pozice.x && direction.y <= pozice.y+1)
-                                       || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-                                       || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
-                                        rightToMove=true;
-                                        sideToMove=true;
-                                      }    
-                                }                 
-                             }
-                        if (((Figures) object).getType() == Figures.Type.Bishop )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.Black){
-                                    if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-                                       || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-                                       || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                       || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
-                                       && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
-                                        
-                                        rightToMove=true;
-                                        sideToMove=true;
-                                     }    
-                                   }                  
-                             }
-                        if (((Figures) object).getType() == Figures.Type.Knight )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.Black){
-                                    if((direction.x == pozice.x+2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y-1)|| (direction.x == pozice.x-2 && direction.y == pozice.y+1) 
-                                       || (direction.x == pozice.x+2 && direction.y == pozice.y+1)|| (direction.x == pozice.x+1 && direction.y == pozice.y+2)|| (direction.x == pozice.x+1 && direction.y == pozice.y-2)
-                                       || (direction.x == pozice.x-1 && direction.y == pozice.y-2)|| (direction.x == pozice.x-1 && direction.y == pozice.y+2)){
-                                        rightToMove=true;
-                                        sideToMove=true;
-                                      }    
-                                 }                  
-                             }  
-                        if (((Figures) object).getType() == Figures.Type.King )
-                             {
-                              if (((Figures) object).getColor() == Figures.Color.Black){
-                                    if(direction.x == pozice.x && direction.y == pozice.y-1 ||direction.x == pozice.x-1 && direction.y == pozice.y-1
-                                       ||direction.x == pozice.x && direction.y == pozice.y+1 ||direction.x == pozice.x-1 && direction.y == pozice.y+1
-                                       ||direction.x == pozice.x+1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y-1
-                                       ||direction.x == pozice.x-1 && direction.y == pozice.y ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
-                                        rightToMove=true;
-                                        sideToMove=true;
-                                      }    
-                                }                 
-                             }
-                          if (((Figures) object).getType() == Figures.Type.Queen )
-                                {
-                            if (((Figures) object).getColor() == Figures.Color.Black){
-                               if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-                                  || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-                                  || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-                                  || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
-                                  && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y)))
-                                   {
-                                        rightToMove=true;
-                                        sideToMove=false;                                      
-                                   }
-                                if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-                                   || (direction.x == pozice.x && direction.y <= pozice.y+1)
-                                   || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-                                   || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
-                                        rightToMove=true;
-                                        sideToMove=false;
-                                      }  
-                              }
-                            }
-                          }                           
+                        }
                        }
-                     }
-                     if(chooseAndPlay==false){
-                     Point vpred =  new Point(model.getOccupied(pozice, direction));  
-                     if(vpred!=null){
-                     if(model.isFree(vpred) && rightToMovePawn==true){  
-                     model.getObjectAt1(pozice,direction);      
-                     }      
-                     else if(rightToMove==false){
-                     System.out.println("Nepovoleny tah, nebo je na tahu protivnik");
-                     } 
-                     
-                     
-                     if(rightToMove==true){
-                         if(model.isFree(vpred)){
-                           model.getObjectAt1(pozice,direction);
-                         }
-                         else{
-                          model.remove(vpred);
-                          model.getObjectAt1(pozice,direction);
-                         }
-                     }
-                     }
-                     }
-                     chooseAndPlay = true;
-                       
-                     }
-                    view.update();               
-            }
-        });
+                   
+             if(chooseAndPlay==false){ 
+                
+                    if(model.isFree(direction)) {
+                        if(rightToMovePawn==true){  
+                        model.getObjectAt1(pozice,direction);
+                    }
+                    }else{
+                        if(rightToMovePawn==true && movement.PawnTaking()==true){ 
+                        model.remove(direction);
+                        model.getObjectAt1(pozice,direction); 
+                        }
+                    }
+
+                    if(rightToMove==true){
+                            if(model.isFree(direction)){
+                                model.getObjectAt1(pozice,direction);
+                            }
+                           else{
+                              model.remove(direction);
+                              model.getObjectAt1(pozice,direction);
+                        }
+                  }
+                  else if(rightToMove==false && rightToMovePawn==false){                    
+                        System.out.println("Nepovoleny tah, nebo je na tahu protivnik");
+                    }
+                    
+               }
+               chooseAndPlay = true;    
+           }
+           view.update();               
+        }
+    });
         
         
         basePane.getChildren().add(root);
@@ -364,9 +208,9 @@ public class Chess extends Application {
     }
 
     
-     class SubWindow extends Stage{
-         
-    }
+    class SubWindow extends Stage{
+      
+     }
     
     
     /**
