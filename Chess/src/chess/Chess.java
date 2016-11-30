@@ -8,20 +8,14 @@ package chess;
 import java.awt.Point;
 import java.util.ArrayList;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -137,7 +131,8 @@ public class Chess extends Application {
                      int xosa = (int)event.getSceneX();
                      int yosa = (int)event.getSceneY();
                      xosa = xosa/100;
-                     yosa = yosa/100;    
+                     yosa = yosa/100;  
+                     Figures.Color coloro = null;
                      
                      direction = new Point(xosa,yosa);
                      for (ModelObject object : model.getObjects()) {
@@ -147,7 +142,7 @@ public class Chess extends Application {
                           if(object instanceof Figures)  
                           {
                             if(movement.MoveThatFigure(((Figures) object).getColor(),((Figures) object).getType(),pozice,direction)){
-                                
+                                 coloro = ((Figures) object).getColor();
                                     if(((Figures) object).getType() == Figures.Type.Pawn)
                                      { 
                                              rightToMovePawn=true;                                     
@@ -168,19 +163,29 @@ public class Chess extends Application {
                     }
                     }else{
                         if(rightToMovePawn==true && movement.PawnTaking()==true){ 
-                        model.remove(direction);
-                        model.getObjectAt1(pozice,direction); 
-                        }
+                              if(coloro==model.getColorOfDirection(direction)){
+                                model.remove(direction);
+                                model.getObjectAt1(pozice,direction);   
+                              }else{
+                                System.out.println("Beres svojeho vole");
+                                coloro=null;
+                              }
                     }
-
+                    }
                     if(rightToMove==true){
                             if(model.isFree(direction)){
                                 model.getObjectAt1(pozice,direction);
                             }
                            else{
-                              model.remove(direction);
-                              model.getObjectAt1(pozice,direction);
-                        }
+                             
+                              if(coloro==model.getColorOfDirection(direction)){
+                                model.remove(direction);
+                                model.getObjectAt1(pozice,direction);
+                              }else{
+                                System.out.println("Beres svojeho vole");
+                                coloro=null;
+                              } 
+                       }
                   }
                   else if(rightToMove==false && rightToMovePawn==false){                    
                         System.out.println("Nepovoleny tah, nebo je na tahu protivnik");

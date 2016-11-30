@@ -17,14 +17,16 @@ public class Movement {
     private boolean side=true;
     private boolean pawnTaking = false;
     private boolean pom;
+    private boolean mahmadan;
+    
     
     public Movement(){
        model = new Model();
     }
    
 public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ,Point pozice,Point direction){
+    Point pomPozice = pozice;
     if(color == Figures.Color.White && side==true){    
-     
         if(typ == Figures.Type.Pawn){     
                         if(direction.x == pozice.x && direction.y == pozice.y-1){
                             side = false; 
@@ -39,14 +41,34 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
         }                    
  
         if (typ == Figures.Type.Rook){
-            if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-            || (direction.x == pozice.x && direction.y <= pozice.y+1)
-            || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-            || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+            
+            	do{
+            		if((direction.x == pomPozice.x && direction.y >= pomPozice.y)){ 
+            				pomPozice.y= pomPozice.y+1;
+            				mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+            		else if (direction.x == pomPozice.x && direction.y <= pomPozice.y){
+                                        pomPozice.y=pomPozice.y-1;
+                                        mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+            		else if (direction.x <= pomPozice.x && direction.y == pomPozice.y){
+            				pomPozice.x = pomPozice.x-1;
+            				mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+            		else if  (direction.x >= pomPozice.x && direction.y == pomPozice.y){
+            				pomPozice.x=pomPozice.x+1;
+            				mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+                }while((pomPozice.x!=direction.x) && (pomPozice.y != direction.y));
+            	if(mahmadan==true){
+                side = false;
+                return true;}
+        }
+        /*if (typ == Figures.Type.Rook){
+            if((direction.x == pozice.x && direction.y >= pozice.y) 
+            || (direction.x == pozice.x && direction.y <= pozice.y)
+            || (direction.x <= pozice.x && direction.y == pozice.y) 
+            || (direction.x >= pozice.x && direction.y == pozice.y)){
                  side = false;
                  return true;
             }
-        }
+        }*/
         
         if (typ == Figures.Type.Knight){
             if((direction.x == pozice.x+2 && direction.y == pozice.y-1)
@@ -63,10 +85,10 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
         }
         
         if (typ == Figures.Type.Bishop){
-            if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-             || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-             || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-             || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+            if(((direction.x >= pozice.x && direction.y >= pozice.y) 
+             || (direction.x <= pozice.x && direction.y >= pozice.y)
+             || (direction.x <= pozice.x && direction.y <= pozice.y) 
+             || (direction.x >= pozice.x && direction.y <= pozice.y))
              && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
                     side = false;
                     return true;
@@ -74,18 +96,18 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
         }
         
         if (typ == Figures.Type.Queen){
-           if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-           || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-           || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-           || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+           if(((direction.x >= pozice.x && direction.y >= pozice.y) 
+           || (direction.x <= pozice.x && direction.y >= pozice.y)
+           || (direction.x <= pozice.x && direction.y <= pozice.y) 
+           || (direction.x >= pozice.x && direction.y <= pozice.y))
            && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
                     side = false;
                     return true;
            }
-           if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-           || (direction.x == pozice.x && direction.y <= pozice.y+1)
-           || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-           || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+           if((direction.x == pozice.x && direction.y >= pozice.y) 
+           || (direction.x == pozice.x && direction.y <= pozice.y)
+           || (direction.x <= pozice.x && direction.y == pozice.y) 
+           || (direction.x >= pozice.x && direction.y == pozice.y)){
                     side = false;
                     return true;
            }  
@@ -117,10 +139,10 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
         }  
         
         if (typ == Figures.Type.Rook){
-          if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-            || (direction.x == pozice.x && direction.y <= pozice.y+1)
-            || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-            || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+          if((direction.x == pozice.x && direction.y >= pozice.y) 
+            || (direction.x == pozice.x && direction.y <= pozice.y)
+            || (direction.x <= pozice.x && direction.y == pozice.y) 
+            || (direction.x >= pozice.x && direction.y == pozice.y)){
                     side = true;
                     return true;
           }    
@@ -141,10 +163,10 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
         }
          
         if (typ == Figures.Type.Bishop){
-           if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-              || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-              || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-              || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+           if(((direction.x >= pozice.x && direction.y >= pozice.y) 
+              || (direction.x <= pozice.x && direction.y >= pozice.y)
+              || (direction.x <= pozice.x && direction.y <= pozice.y) 
+              || (direction.x >= pozice.x && direction.y <= pozice.y))
               && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y))){
                       side = true;
                       return true;
@@ -152,19 +174,19 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
         }
         
          if (typ == Figures.Type.Queen){
-             if(((direction.x >= pozice.x+1 && direction.y >= pozice.y-1) 
-             || (direction.x <= pozice.x-1 && direction.y >= pozice.y-1)
-             || (direction.x <= pozice.x-1 && direction.y <= pozice.y+1) 
-             || (direction.x >= pozice.x+1 && direction.y <= pozice.y+1))
+             if(((direction.x >= pozice.x && direction.y >= pozice.y) 
+             || (direction.x <= pozice.x && direction.y >= pozice.y)
+             || (direction.x <= pozice.x && direction.y <= pozice.y) 
+             || (direction.x >= pozice.x && direction.y <= pozice.y))
              && (Math.abs(pozice.x-direction.x) == Math.abs(pozice.y-direction.y)))
                {
                         side = true;
                         return true;                                     
                }
-             if((direction.x == pozice.x && direction.y >= pozice.y-1) 
-                || (direction.x == pozice.x && direction.y <= pozice.y+1)
-                || (direction.x <= pozice.x-1 && direction.y == pozice.y) 
-                || (direction.x >= pozice.x+1 && direction.y == pozice.y)){
+             if((direction.x == pozice.x && direction.y >= pozice.y) 
+                || (direction.x == pozice.x && direction.y <= pozice.y)
+                || (direction.x <= pozice.x && direction.y == pozice.y) 
+                || (direction.x >= pozice.x && direction.y == pozice.y)){
                         side = true;
                         return true;
                 }  
