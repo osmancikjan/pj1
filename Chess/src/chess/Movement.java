@@ -6,6 +6,7 @@
 package chess;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,18 +15,21 @@ import java.awt.Point;
 public class Movement {
     private Model model;
     private Figures figure;
+    private Free free;
     private boolean side=true;
     private boolean pawnTaking = false;
     private boolean pom;
     private boolean mahmadan;
-    
+    private ArrayList<ModelObject> objects = new ArrayList<>();
     
     public Movement(){
        model = new Model();
+       free = new Free();
+      // model.initGame();
     }
    
 public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ,Point pozice,Point direction){
-    Point pomPozice = pozice;
+    Point pomPozice = new Point(pozice);
     if(color == Figures.Color.White && side==true){    
         if(typ == Figures.Type.Pawn){     
                         if(direction.x == pozice.x && direction.y == pozice.y-1){
@@ -40,25 +44,28 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
                                  } 
         }                    
  
-        if (typ == Figures.Type.Rook){
-            
-            	do{
+        if (typ == Figures.Type.Rook){           
+            	do{                         
             		if((direction.x == pomPozice.x && direction.y >= pomPozice.y)){ 
             				pomPozice.y= pomPozice.y+1;
-            				mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+            				mahmadan=free.isWayClear(pomPozice);}
             		else if (direction.x == pomPozice.x && direction.y <= pomPozice.y){
                                         pomPozice.y=pomPozice.y-1;
-                                        mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+                                        mahmadan=free.isWayClear(pomPozice);}
             		else if (direction.x <= pomPozice.x && direction.y == pomPozice.y){
             				pomPozice.x = pomPozice.x-1;
-            				mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+            				mahmadan=free.isWayClear(pomPozice);}
             		else if  (direction.x >= pomPozice.x && direction.y == pomPozice.y){
             				pomPozice.x=pomPozice.x+1;
-            				mahmadan=model.isWayClear(pomPozice,Figures.Type.Rook);}
+            				mahmadan=free.isWayClear(pomPozice);}
+                        if(mahmadan==false){
+                            break;
+                        }
                 }while((pomPozice.x!=direction.x) && (pomPozice.y != direction.y));
-            	if(mahmadan==true){
+            	if(mahmadan==true){    
                 side = false;
                 return true;}
+                else return false;
         }
         /*if (typ == Figures.Type.Rook){
             if((direction.x == pozice.x && direction.y >= pozice.y) 
@@ -125,18 +132,18 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
        
     }else if(color == Figures.Color.Black && side==false){
         
-        if(typ == Figures.Type.Pawn){           
-           if(direction.x == pozice.x && direction.y == pozice.y+1 && model.isFree(direction)){
-                    side = true;
-                    return true;
-            }
-            else if((direction.x == pozice.x+1 && direction.y == pozice.y+1 
-            ||direction.x == pozice.x-1 && direction.y == pozice.y+1) 
-            && !model.isFree(direction)){
-                    side = true;
-                    return true;                    
-            }
-        }  
+        if(typ == Figures.Type.Pawn){     
+                        if(direction.x == pozice.x && direction.y == pozice.y+1){
+                            side = true; 
+                            return true;
+                        }
+                        else if(direction.x == pozice.x-1 && direction.y == pozice.y+1 
+                                 ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
+                                 side = true; 
+                                 this.pawnTaking= true;
+                                 return true;
+                                 } 
+        }
         
         if (typ == Figures.Type.Rook){
           if((direction.x == pozice.x && direction.y >= pozice.y) 
@@ -202,7 +209,7 @@ public synchronized boolean MoveThatFigure(Figures.Color color, Figures.Type typ
                 ||direction.x == pozice.x+1 && direction.y == pozice.y-1
                 ||direction.x == pozice.x-1 && direction.y == pozice.y 
                 ||direction.x == pozice.x+1 && direction.y == pozice.y+1){
-                        side = true;
+                        side = true;   
                         return true;
               }                                
          }

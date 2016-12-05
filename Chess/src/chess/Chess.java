@@ -27,7 +27,7 @@ public class Chess extends Application {
     private View view;
     private Controller controller;
     private Movement movement;
-    private ArrayList<ModelObject> objects = new ArrayList<>();
+    //private ArrayList<ModelObject> objects = new ArrayList<>();
     Point direction = new Point();
     Point pozice = new Point();
     boolean sideToMove = true;
@@ -87,8 +87,8 @@ public class Chess extends Application {
                      {
                        int xosa = (int)event.getSceneX();
                          int yosa = (int)event.getSceneY();
-                         xosa = xosa/100;
-                         yosa = yosa/100;
+                         xosa = xosa/90;
+                         yosa = yosa/90;
                          
                          pozice = new Point(xosa,yosa);
                             for (ModelObject object : model.getObjects()) {
@@ -130,9 +130,9 @@ public class Chess extends Application {
                      rightToMovePawn = false; 
                      int xosa = (int)event.getSceneX();
                      int yosa = (int)event.getSceneY();
-                     xosa = xosa/100;
-                     yosa = yosa/100;  
-                     Figures.Color coloro = null;
+                     xosa = xosa/90;
+                     yosa = yosa/90;  
+                     //Figures.Color coloro = null;
                      
                      direction = new Point(xosa,yosa);
                      for (ModelObject object : model.getObjects()) {
@@ -142,13 +142,13 @@ public class Chess extends Application {
                           if(object instanceof Figures)  
                           {
                             if(movement.MoveThatFigure(((Figures) object).getColor(),((Figures) object).getType(),pozice,direction)){
-                                 coloro = ((Figures) object).getColor();
+                                 //coloro = ((Figures) object).getColor();
                                     if(((Figures) object).getType() == Figures.Type.Pawn)
                                      { 
-                                             rightToMovePawn=true;                                     
+                                        rightToMovePawn=true;                                     
                                      }
                                     else if (((Figures) object).getType() !=Figures.Type.Pawn){
-                                         rightToMove=true;  
+                                        rightToMove=true;  
                                    }
                                 }
                           }
@@ -160,37 +160,42 @@ public class Chess extends Application {
                     if(model.isFree(direction)) {
                         if(rightToMovePawn==true){  
                         model.getObjectAt1(pozice,direction);
+                       // model.remove(pozice);
                     }
                     }else{
                         if(rightToMovePawn==true && movement.PawnTaking()==true){ 
-                              if(coloro==model.getColorOfDirection(direction)){
+                             // if(coloro==model.getColorOfDirection(direction)){
                                 model.remove(direction);
-                                model.getObjectAt1(pozice,direction);   
-                              }else{
+                                model.getObjectAt1(pozice,direction);
+                                //model.remove(pozice);
+                            /*  }else{
                                 System.out.println("Beres svojeho vole");
                                 coloro=null;
-                              }
+                              }*/
                     }
                     }
                     if(rightToMove==true){
                             if(model.isFree(direction)){
                                 model.getObjectAt1(pozice,direction);
+                                model.remove(pozice);
                             }
                            else{
-                             
-                              if(coloro==model.getColorOfDirection(direction)){
+                             // if(coloro==model.getColorOfDirection(direction)){
                                 model.remove(direction);
                                 model.getObjectAt1(pozice,direction);
-                              }else{
+                             /* }else{
                                 System.out.println("Beres svojeho vole");
                                 coloro=null;
-                              } 
+                              } */
                        }
                   }
                   else if(rightToMove==false && rightToMovePawn==false){                    
                         System.out.println("Nepovoleny tah, nebo je na tahu protivnik");
                     }
                     
+                   /* for (ModelObject object: model.getObjects()) {
+                     System.out.println("x"+object.getX() + "y" + object.getY());
+                     }*/
                }
                chooseAndPlay = true;    
            }
@@ -205,17 +210,13 @@ public class Chess extends Application {
         AnchorPane.setRightAnchor(root, 0.0);
         AnchorPane.setTopAnchor(root, 30.0);
 
-        Scene scene = new Scene(basePane, 800, 800); 
+        Scene scene = new Scene(basePane, 720, 720); 
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(scene);
         primaryStage.show();
         
     }
-
-    
-    class SubWindow extends Stage{
-      
-     }
     
     
     /**

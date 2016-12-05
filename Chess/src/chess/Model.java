@@ -37,46 +37,7 @@ public class Model {
 
     }
     
-    public boolean isFree(Point point) {
-        return objects.stream().noneMatch((object) -> (object.getPosition().equals(point)));
-    }
     
-    public synchronized Figures.Color getColorOfDirection(Point direction){
-        for(ModelObject object:objects) {
-            if (object.getPosition().equals(direction))
-            {
-               return figure.getColor();
-            }
-        }
-        return null;
-    }
-    
-    public boolean isWayClear(Point point, Figures.Type typ){
-        if (!objects.stream().filter((object) -> (object.getPosition().equals(point))).noneMatch((object) -> (((Figures) object).getType()==typ))) {
-            return false;
-        }   
-        return true;
-    }
-     
-    public synchronized ModelObject getObjectAt1(Point position, Point direction){
-        for(ModelObject object:objects) {
-            if (object.getPosition().equals(position))
-            {
-               Point moveTo = new Point(direction.x,direction.y);
-               object.getPosition().setLocation(moveTo);
-            }
-        }
-        return null;
-    }
-    
-    public synchronized void remove(Point position) {
-        for(ModelObject object:objects) {
-            if (object.getPosition().equals(position)) {
-                objects.remove(object);
-                return;
-            }
-        }
-    } 
       
     public synchronized void initGame() {
         objects.clear();
@@ -158,4 +119,39 @@ public class Model {
         figure = new Figures(possition, this,Figures.Color.Black,Figures.Type.King);
         objects.add(figure);
     }
+    
+    public boolean isFree(Point point) {
+        return objects.stream().noneMatch((object) -> (object.getPosition().equals(point)));
+    }
+    
+    public synchronized Figures.Color getColorOfDirection(Point direction){
+        for(ModelObject object:objects) {
+            if (object.getPosition().equals(direction))
+            {
+               return figure.getColor();
+            }
+        }
+        return null;
+    }
+    
+     
+    public synchronized ModelObject getObjectAt1(Point position, Point direction){
+        for(ModelObject object:objects) {
+            if (object.getPosition().equals(position))
+            {
+               //object.getPosition().setLocation(direction);
+               object.position = direction;
+            }
+        }
+        return null;
+    }
+    
+    public synchronized void remove(Point position) {
+        for(ModelObject object:objects) {
+            if (object.getPosition().equals(position)) {
+                objects.remove(object);
+                return;
+            }
+        }
+    } 
 }
