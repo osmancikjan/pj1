@@ -24,18 +24,21 @@ public class Free {
         model = new Model();
     }
     
-    public boolean isWayClear(Point point){
-        if(controller.isRunning()){
-       for (ModelObject object: model.getObjects()) {
+    public boolean isWayClear(Point point,ArrayList<ModelObject> objectsForMovement){
+      ArrayList<ModelObject> objectsForFree= new ArrayList<ModelObject>(objectsForMovement.size());
+        for (ModelObject obj : objectsForMovement) {
+             objectsForFree.add((ModelObject) obj);
+        }
+       for (ModelObject object: objectsForFree) {
            System.out.println("x"+object.getX() + "y" + object.getY());
         }
-       for(ModelObject object : model.getObjects()) {
+       for(ModelObject object : objectsForFree) {
             if (object.getPosition().equals(point))
             {
                 return false;
             }
         }
-    }
+    
         return true;
    }
 }

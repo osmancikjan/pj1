@@ -27,7 +27,7 @@ public class Chess extends Application {
     private View view;
     private Controller controller;
     private Movement movement;
-    //private ArrayList<ModelObject> objects = new ArrayList<>();
+    private ArrayList<ModelObject> objects = new ArrayList<>();
     Point direction = new Point();
     Point pozice = new Point();
     boolean sideToMove = true;
@@ -67,7 +67,31 @@ public class Chess extends Application {
         AnchorPane.setTopAnchor(btnStart, 0.0);
         AnchorPane.setLeftAnchor(btnStart, 0.0);
         AnchorPane.setRightAnchor(btnStart, 0.0);
+
+       /*Vyber barvy*/ 
+        Alert alert = new Alert(AlertType.NONE);
+        alert.setTitle("Vyber hrace");
+        alert.setHeaderText("Chcete hrat za bile, cerne nebo po siti?");
+        alert.setContentText("Vyberte jednu z moznosti");
         
+        ButtonType buttonTypeWhite = new ButtonType("Bile");
+        ButtonType buttonTypeBlack = new ButtonType("Cerne");
+        ButtonType buttonTypeMP = new ButtonType("Multak");
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+        
+        alert.getButtonTypes().setAll(buttonTypeWhite, buttonTypeBlack, buttonTypeMP, buttonTypeCancel);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeWhite){
+            // ... user chose "One"
+        } else if (result.get() == buttonTypeBlack) {
+            // ... user chose "Two"
+        } else if (result.get() == buttonTypeMP) {
+            // ... user chose "Three"
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }        
+
         
         Pane root = new Pane();
         Canvas canvas = new Canvas(View.width, View.height);
@@ -141,7 +165,7 @@ public class Chess extends Application {
                         {    
                           if(object instanceof Figures)  
                           {
-                            if(movement.MoveThatFigure(((Figures) object).getColor(),((Figures) object).getType(),pozice,direction)){
+                            if(movement.MoveThatFigure(((Figures) object).getColor(),((Figures) object).getType(),pozice,direction,model.getObjects())){
                                  //coloro = ((Figures) object).getColor();
                                     if(((Figures) object).getType() == Figures.Type.Pawn)
                                      { 
