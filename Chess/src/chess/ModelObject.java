@@ -12,11 +12,11 @@ import java.awt.Point;
  * @author Dro0076
  */
 public abstract class ModelObject {
-    
+
     Point position;
 
     public ModelObject(Point position) {
-        this.position = new Point(position.x,position.y);
+        this.position = new Point(position.x, position.y);
     }
 
     public int getX() {

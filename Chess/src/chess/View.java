@@ -23,8 +23,8 @@ public class View {
     private final Image black_back,white_back, white_pawn,black_pawn, 
                         white_knight, black_knight, white_rook,black_rook,
                         white_bishop, black_bishop, white_queen, black_queen,
-                        white_king, black_king;
-
+                        white_king, black_king; 
+                       
    
     private Model model;
     
@@ -45,6 +45,7 @@ public class View {
         black_queen = new Image("file:src/images/Black_Queen.png");
         white_king =new Image("file:src/images/White_King.png");
         black_king =new Image("file:src/images/Black_King.png");
+       
         this.model = model;
         update();
     }
